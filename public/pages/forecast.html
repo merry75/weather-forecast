@@ -1,1 +1,20 @@
-Forecast for {{city}}
+<a href="#!/">Back to Search</a> 
+<hr>
+Forecast for {{city.city.name}}
+<hr>
+Intervals(3hours): <a href="#!/forecast/3" ng-class="{'bg-primary': days === '3'}">3</a> | <a href="#!/forecast/6" ng-class="{'bg-primary': days === '6'}" >6</a> | <a href="#!/forecast/9" ng-class="{'bg-primary': days === '9'}" >9</a>
+<hr>
+<div ng-repeat="w in city.list">
+	<div class="row">
+		<div cold-md-12>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">{{w.dt_txt}}</h3>				
+				</div>
+				<div class="panel-body">
+					Daytime Temeperature (Farenheit) : {{convertTemp(w.main.temp)}}			
+				</div>			
+			</div>			
+		</div>
+	</div>
+</div>

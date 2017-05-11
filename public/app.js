@@ -14,6 +14,11 @@ weatherApp.config(function($routeProvider) {
 		templateUrl: 'pages/forecast.html',
 		controller: 'forecastController'
 	})
+
+	.when('/forecast/:days', {
+		templateUrl: 'pages/forecast.html',
+		controller: 'forecastController'		
+	})
 })
 
 //services
@@ -30,6 +35,25 @@ weatherApp.controller('homeController', ['$scope','cityService', function($scope
 
 }]);
 
-weatherApp.controller('forecastController', ['$scope','cityService', function($scope,cityService) {
-	$scope.city = cityService.city;
+weatherApp.controller('forecastController', ['$scope','cityService', '$http', '$routeParams', 
+	function($scope,cityService,$http,$routeParams) {
+
+		$scope.city = cityService.city;
+
+		$scope.days = $routeParams.days || '3' ;
+
+		$scope.weatherApi = 
+			$http.get('http://api.openweathermap.org/data/2.5/forecast?q='+ $scope.city 
+				+ '&cnt=' + $scope.days + '&appid=bf14df85554c138a1ee1ea80d096767a')
+			.then(function(response){
+				$scope.city = response.data
+			    console.log($scope.city)
+			});
+
+		$scope.convertTemp = function(degK) {
+			return Math.round((1.8 * (degK - 273))+ 32);
+		}
+
+
+
 }]);
